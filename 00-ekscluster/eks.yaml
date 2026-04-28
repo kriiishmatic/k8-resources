@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ClusterConfig
+metadata:
+  name: roboshop-eks-cluster
+  region: us-east-1
+managedNodeGroups:
+  - name: roboshop-eks-node-group
+    instanceTypes: ["t3.medium","c3.medium","c4.medium","c5.large"]
+    desiredSize: 2
+    spot: true
