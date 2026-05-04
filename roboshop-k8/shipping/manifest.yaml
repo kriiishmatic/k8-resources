@@ -44,7 +44,7 @@ metadata:
     environment: dev
     tier: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: shipping

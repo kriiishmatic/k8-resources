@@ -106,7 +106,7 @@ metadata:
     environment: dev
     tier: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: frontend
