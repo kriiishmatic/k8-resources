@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  namespace: roboshop
+  labels:
+    name: cart
+    project: roboshop
+    environment: dev
+    tier: backend
+spec:
+  selector:
+    name: cart
+    project: roboshop
+    environment: dev
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart
+  namespace: roboshop
+  labels:
+    name: cart
+    project: roboshop
+    environment: dev
+    tier: backend
+  data:
+    REDIS_HOST: "redis"
+    CATALOGUE_HOST: "catalogue"
+    CATALOGUE_PORT: "8080"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: roboshop
+  labels:
+    name: cart
+    project: roboshop
+    environment: dev
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: cart
+      project: roboshop
+      environment: dev
+      tier: backend
+  template:
+    metadata:
+      labels:
+        name: cart
+        project: roboshop
+        environment: dev
+        tier: backend
+    spec:
+      containers:
+      - name: cart
+        image: kriiishmatic/cart:v1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        envFrom:
+        - configMapRef:
+            name: cart
+  # resources:
+  #   limits:
+  #     memory: "64Mi"
+  #     cpu: "250m"
+  #   requests:
+  #     memory: "64Mi"
+  #     cpu: "250m"
+  #   envFrom:
+  #     - configMapRef:
+  #         name: cart
+

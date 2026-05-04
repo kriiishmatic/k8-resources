@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    name: shipping
+    project: roboshop
+    environment: dev
+    tier: backend
+spec:
+  selector:
+    name: shipping
+    project: roboshop
+    environment: dev
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    name: shipping
+    project: roboshop
+    environment: dev
+    tier: backend
+  data:
+    CART_ENDPOINT: "cart:8080"
+    DB_HOST: "mysql"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    name: shipping
+    project: roboshop
+    environment: dev
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: shipping
+      project: roboshop
+      environment: dev
+      tier: backend
+  template:
+    metadata:
+      labels:
+        name: shipping
+        project: roboshop
+        environment: dev
+        tier: backend
+    spec:
+      containers:
+      - name: shipping
+        image: kriiishmatic/shipping:v1
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        ports:
+          - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: shipping
+  # resources:
+  #   limits:
+  #     memory: "64Mi"
+  #     cpu: "250m"
+  #   requests:
+  #     memory: "64Mi"
+  #     cpu: "250m"
+  #   envFrom:
+  #     - configMapRef:
+  #         name: shipping
