@@ -6,5 +6,5 @@ metadata:
 managedNodeGroups:
   - name: roboshop-eks-node-group
     instanceTypes: ["t3.medium","c3.medium","c4.medium","c5.large"]
-    desiredSize: 2
+    desiredCapcacity: 2
     spot: true
