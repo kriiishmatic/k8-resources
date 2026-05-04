@@ -68,22 +68,24 @@ spec:
       - name: payment
         image: kriiishmatic/payment:v1
         imagePullPolicy: Always
+        ports:
+          - name: liveness-port
+            containerPort: 8080
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: liveness-port
           initialDelaySeconds: 10
           periodSeconds: 10
           failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: liveness-port
           initialDelaySeconds: 10
           periodSeconds: 10
           failureThreshold: 3
-        ports:
-            - containerPort: 8080
+        
         envFrom:
           - configMapRef:
               name: payment
