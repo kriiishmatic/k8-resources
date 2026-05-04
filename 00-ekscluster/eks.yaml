@@ -10,4 +10,4 @@ managedNodeGroups:
     - t3.large
     - c5.large
     desiredCapacity: 2
-    spot: true
+    spot: false

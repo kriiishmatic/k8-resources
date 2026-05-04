@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: net-debug
+  namespace: roboshop
+spec:
+  containers:
+  - name: debug
+    image: almalinux:9
+    command: ["/bin/bash", "-c"]
+    args:
+      - |
+        dnf install -y telnet net-tools iputils bind-utils && \
+        sleep infinity
+    stdin: true
+    tty: true
+  restartPolicy: Never
