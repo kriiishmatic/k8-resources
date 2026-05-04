@@ -29,10 +29,10 @@ metadata:
     project: roboshop
     environment: dev
     tier: db
-  data:
-    my.cnf: |
-      [mysqld]
-      innodb_redo_log_capacity = 2G
+data:
+  my.cnf: |
+    [mysqld]
+    innodb_redo_log_capacity = 2G
 ---
 apiVersion: apps/v1
 kind: Deployment

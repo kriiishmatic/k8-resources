@@ -29,9 +29,9 @@ metadata:
     project: roboshop
     environment: dev
     tier: db
-  data:
-    RABBITMQ_DEFAULT_USER: "roboshop"
-    RABBITMQ_DEFAULT_PASS: "roboshop123"
+data:
+  RABBITMQ_DEFAULT_USER: "roboshop"
+  RABBITMQ_DEFAULT_PASS: "roboshop123"
 ---
 apiVersion: apps/v1
 kind: Deployment
