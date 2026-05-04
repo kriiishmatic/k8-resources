@@ -1,13 +1,50 @@
+# apiVersion: eksctl.io/v1alpha5
+# kind: ClusterConfig
+# metadata:
+#   name: roboshop-eks-cluster
+#   region: us-east-1
+# managedNodeGroups:
+#   - name: roboshop-eks-node-group
+#     instanceTypes:
+#     - t3.medium
+#     - t3.large
+#     - c5.large
+#     desiredCapacity: 2
+#     spot: false
+
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
+
 metadata:
   name: roboshop-eks-cluster
   region: us-east-1
+  version: "1.29"
+
+availabilityZones:
+  - us-east-1a
+  - us-east-1b
+
+vpc:
+  subnets:
+    public:
+      us-east-1a: {}
+      us-east-1b: {}
+
 managedNodeGroups:
-  - name: roboshop-eks-node-group
-    instanceTypes:
-    - t3.medium
-    - t3.large
-    - c5.large
+  - name: roboshop-nodegroup
+    instanceType: t3.medium
     desiredCapacity: 2
-    spot: false
+    minSize: 1
+    maxSize: 3
+
+    volumeSize: 20
+    amiFamily: AmazonLinux2
+
+    ssh:
+      allow: true
+
+    labels:
+      role: worker
+
+    tags:
+      nodegroup-role: worker
