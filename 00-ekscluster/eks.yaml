@@ -1,12 +1,16 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
+
 metadata:
   name: roboshop-eks-cluster
   region: us-east-1
+
 managedNodeGroups:
-  - name: roboshop-eks-node-group
-    instanceType: "t3.micro"
+  - name: roboshop-ng-dev
+    instanceType: t3.small
     desiredCapacity: 3
+    minSize: 1
+    maxSize: 5
     spot: false
 
 # apiVersion: eksctl.io/v1alpha5
