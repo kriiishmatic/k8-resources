@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
       - name: rabbitmq
-        image: rabbitmq:3.0
+        image: rabbitmq:3.12-management
         ports:
           - containerPort: 5672
         readinessProbe:

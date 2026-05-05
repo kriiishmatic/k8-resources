@@ -65,16 +65,16 @@ spec:
         image: kriiishmatic/mysql:v1
         ports:
           - containerPort: 3306
-        readinessProbe:
-          tcpSocket:
-            port: 3306
-          initialDelaySeconds: 10 
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 3306
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   tcpSocket:
+        #     port: 3306
+        #   initialDelaySeconds: 10 
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 3306
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
 
         volumeMounts:
               - name: mysql-config
