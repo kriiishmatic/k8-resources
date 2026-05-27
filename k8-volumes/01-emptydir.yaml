@@ -8,7 +8,7 @@ spec :
     image : nginx:latest
     volumeMounts :
     - name : emptydir-volume
-      mountPath : /
+      mountPath : /data
   volumes :
   - name : emptydir-volume
     emptyDir : {}
