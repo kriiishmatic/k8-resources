@@ -12,4 +12,4 @@ spec :
   volumes :
   - name : emptydir-volume
     emptyDir : {}
-    sizeLimit : 1Gi
+    sizeLimit : "1Gi"

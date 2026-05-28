@@ -8,7 +8,7 @@ metadata:
 managedNodeGroups:
   - name: roboshop-ng-dev
     instanceType: t3.small
-    desiredCapacity: 3
+    desiredCapacity: 1
     minSize: 1
     maxSize: 5
     spot: false
