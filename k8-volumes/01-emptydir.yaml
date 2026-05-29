@@ -8,7 +8,14 @@ spec :
     image : nginx:latest
     volumeMounts :
     - name : emptydir-volume
-      mountPath : /var/log/pods/roboshop_pod-test_3705ce15-52fc-45c3-b9a8-c79dff0239e3/nginx-container/
+      mountPath : /var/log/
+  - name : busybox-container
+    image : busybox:latest
+    command : ["sleep", "3600"]
+    volumeMounts :
+    - name : emptydir-volume
+      mountPath : /mnt/data
+      readOnly : true
   volumes :
   - name : emptydir-volume
     emptyDir : {}
