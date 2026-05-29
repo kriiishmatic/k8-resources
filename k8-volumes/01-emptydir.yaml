@@ -8,13 +8,13 @@ spec :
     image : nginx:latest
     volumeMounts :
     - name : emptydir-volume
-      mountPath : /data
+      mountPath : /uploads/apps
   - name : busybox-container
     image : busybox:latest
     command : ["sleep", "3600"]
     volumeMounts :
     - name : emptydir-volume
-      mountPath : /mnt/data
+      mountPath : /readonly/data
       readOnly : true
   volumes :
   - name : emptydir-volume
