@@ -8,7 +8,7 @@ spec :
     image : nginx:latest
     volumeMounts :
     - name : emptydir-volume
-      mountPath : /var/log/
+      mountPath : /data
   - name : busybox-container
     image : busybox:latest
     command : ["sleep", "3600"]
