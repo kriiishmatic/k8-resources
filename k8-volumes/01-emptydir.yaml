@@ -18,7 +18,7 @@ spec :
       readOnly : true
   volumes :
   - name : emptydir-volume
-    emptyDir : {}
+    emptyDir : 
       sizeLimit : "1Gi"
 
 # apiVersion : v1
