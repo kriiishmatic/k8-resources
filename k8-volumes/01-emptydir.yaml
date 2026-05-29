@@ -21,12 +21,12 @@ spec :
     emptyDir : {}
     sizeLimit : "1Gi"
 
-apiVersion : v1
-kind : Pod 
-metadata :
-  name : pod-test
-spec :
-  containers :
-  - name : nginx-container
-    image : nginx:latest
+# apiVersion : v1
+# kind : Pod 
+# metadata :
+#   name : pod-test
+# spec :
+#   containers :
+#   - name : nginx-container
+#     image : nginx:latest
     
