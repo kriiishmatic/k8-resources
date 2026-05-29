@@ -5,30 +5,25 @@ metadata:
   name: roboshop-eks-cluster
   region: us-east-1
 
+vpc:
+  id: vpc-073f068d99a28006a
+
 managedNodeGroups:
   - name: roboshop-ng-dev
 
     instanceType: t3.small
 
-    desiredCapacity: 1
+    desiredCapacity: 2
     minSize: 1
-    maxSize: 6
-
-    # privateNetworking: true
+    maxSize: 3
 
     subnets:
       - subnet-09e1785d7668c8762
+      - subnet-0bd99b0dc81e73657
 
     ssh:
       allow: true
       publicKeyName: k8s-practice-key
-
-    securityGroups:
-      attachIDs:
-        - sg-010003368b1f4c38b
-
-
-
 
 
 
