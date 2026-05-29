@@ -14,7 +14,7 @@ managedNodeGroups:
     minSize: 1
     maxSize: 6
 
-    privateNetworking: true
+    # privateNetworking: true
 
     subnets:
       - subnet-09e1785d7668c8762
