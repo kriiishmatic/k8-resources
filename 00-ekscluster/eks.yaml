@@ -8,6 +8,14 @@ metadata:
 vpc:
   id: vpc-073f068d99a28006a
 
+  subnets:
+    public:
+      us-east-1a:
+        id: subnet-09e1785d7668c8762
+
+      us-east-1b:
+        id: subnet-0bd99b0dc81e73657
+
 managedNodeGroups:
   - name: roboshop-ng-dev
 
@@ -16,10 +24,6 @@ managedNodeGroups:
     desiredCapacity: 2
     minSize: 1
     maxSize: 3
-
-    subnets:
-      - subnet-09e1785d7668c8762
-      - subnet-0bd99b0dc81e73657
 
     ssh:
       allow: true
