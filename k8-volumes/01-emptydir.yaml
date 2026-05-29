@@ -19,7 +19,7 @@ spec :
   volumes :
   - name : emptydir-volume
     emptyDir : {}
-    sizeLimit : "1Gi"
+      sizeLimit : "1Gi"
 
 # apiVersion : v1
 # kind : Pod 
