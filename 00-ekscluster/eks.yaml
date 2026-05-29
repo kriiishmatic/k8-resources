@@ -7,11 +7,59 @@ metadata:
 
 managedNodeGroups:
   - name: roboshop-ng-dev
+
     instanceType: t3.small
+
     desiredCapacity: 1
     minSize: 1
-    maxSize: 5
-    spot: false
+    maxSize: 6
+
+    privateNetworking: true
+
+    subnets:
+      - subnet-09e1785d7668c8762
+
+    ssh:
+      allow: true
+      publicKeyName: k8s-practice-key
+
+    securityGroups:
+      attachIDs:
+        - sg-010003368b1f4c38b
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# apiVersion: eksctl.io/v1alpha5
+# kind: ClusterConfig
+
+# metadata:
+#   name: roboshop-eks-cluster
+#   region: us-east-1
+
+# managedNodeGroups:
+#   - name: roboshop-ng-dev
+#     instanceType: t3.small
+#     desiredCapacity: 1
+#     minSize: 1
+#     maxSize: 5
+#     spot: false
 
 # apiVersion: eksctl.io/v1alpha5
 # kind: ClusterConfig
