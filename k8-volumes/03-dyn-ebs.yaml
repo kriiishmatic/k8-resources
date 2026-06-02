@@ -1,24 +1,30 @@
-apiVersion : v1
-kind : StorageClass
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+
 metadata:
-  name : ebs-sc
-provisioner : ebs.csi.aws.com
+  name: ebs-sc
+
+provisioner: ebs.csi.aws.com
+
 parameters:
-  type : gp3
-  fsType : ext4
-resources:
-requests:
-  storage: 5Gi
-accessModes:
-  - ReadWriteOnce
+  type: gp3
+  csi.storage.k8s.io/fstype: ext4
+
+volumeBindingMode: WaitForFirstConsumer
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
+
 metadata:
   name: ebs-pvc-dynamic
+
 spec:
   storageClassName: ebs-sc
+
+  accessModes:
+    - ReadWriteOnce
+
   resources:
     requests:
       storage: 3Gi
