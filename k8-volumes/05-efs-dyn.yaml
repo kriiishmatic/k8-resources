@@ -1,4 +1,4 @@
-apiVersion : storage.k8s.io/v1
+apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: efs-sc-dynamic
@@ -6,9 +6,13 @@ provisioner: efs.csi.aws.com
 parameters:
   provisioningMode: efs-ap
   fileSystemId: fs-0086cd2d15ca98b8d
+  directoryPerms: "700"
+  gidRangeStart: "1000"
+  gidRangeEnd: "2000"
   basePath: "/dynamic-efs-roboshop"
-volumeBindingMode: Immediate
 reclaimPolicy: Retain
+volumeBindingMode: Immediate
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
