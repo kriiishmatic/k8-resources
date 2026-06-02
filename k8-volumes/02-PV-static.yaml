@@ -39,7 +39,7 @@ spec:
       image: nginx:latest 
       volumeMounts:
         - name: static-volume
-          mountPath: /app/static
+          mountPath: /usr/share/nginx/html
   volumes:
     - name: static-volume
       persistentVolumeClaim:
