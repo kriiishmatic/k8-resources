@@ -1,0 +1,44 @@
+apiVersion : v1
+kind : StorageClass
+metadata:
+  name : ebs-sc
+provisioner : ebs.csi.aws.com
+parameters:
+  type : gp3
+  fsType : ext4
+resources:
+requests:
+  storage: 5Gi
+accessModes:
+  - ReadWriteOnce
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-pvc-dynamic
+spec:
+name: ebs-sc
+accessModes:
+  - ReadWriteOnce
+resources:
+  requests:
+    storage: 3Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ebs-pod-dynamic
+spec:
+  containers:
+    - name: ebs-container-dynamic
+      image: nginx:latest 
+      volumeMounts:
+        - name: ebs-volume-dynamic
+          mountPath: /app/ebs/dynamic
+  volumes:
+    - name: ebs-volume-dynamic
+      persistentVolumeClaim:
+        claimName: ebs-pvc-dynamic
+
+
