@@ -18,12 +18,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: ebs-pvc-dynamic
 spec:
-name: ebs-sc
-accessModes:
-  - ReadWriteOnce
-resources:
-  requests:
-    storage: 3Gi
+  storageClassName: ebs-sc
+  resources:
+    requests:
+      storage: 3Gi
 ---
 apiVersion: v1
 kind: Pod
