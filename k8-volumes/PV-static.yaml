@@ -36,7 +36,7 @@ metadata:
 spec:
   containers:
     - name: static-container
-      image: nginx
+      image: nginx:latest 
       volumeMounts:
         - name: static-volume
           mountPath: /app/static
