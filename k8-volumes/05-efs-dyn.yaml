@@ -1,0 +1,67 @@
+apiVersion : storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc-dynamic
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-0086cd2d15ca98b8d
+  basePath: "/dynamic-efs-roboshop"
+volumeBindingMode: Immediate
+reclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-pvc-dynamic-pod1
+spec:
+  storageClassName: efs-sc-dynamic
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: efs-pod-dynamic-pod1
+spec:
+  containers:
+    - name: efs-container-dynamic-pod1
+      image: nginx:latest 
+      volumeMounts:
+        - name: efs-volume-dynamic-pod1
+          mountPath: /app/data/dynamic/efs
+  volumes:
+    - name: efs-volume-dynamic-pod1
+      persistentVolumeClaim:
+        claimName: efs-pvc-dynamic-pod1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-pvc-dynamic-pod2
+spec:
+  storageClassName: efs-sc-dynamic
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: efs-pod-dynamic-pod2
+spec:
+  containers:
+    - name: efs-container-dynamic-pod2
+      image: nginx:latest 
+      volumeMounts:
+        - name: efs-volume-dynamic-pod2
+          mountPath: /app/data/test/efs
+  volumes:
+    - name: efs-volume-dynamic-pod2
+      persistentVolumeClaim:
+        claimName: efs-pvc-dynamic-pod2
