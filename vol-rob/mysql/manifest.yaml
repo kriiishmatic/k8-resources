@@ -104,6 +104,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-secret
+  namespace: roboshop
 type: Opaque
 stringData:
   mysql-root-password: Roboshop@1
