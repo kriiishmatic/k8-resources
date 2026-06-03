@@ -107,4 +107,4 @@ metadata:
   namespace: roboshop
 type: Opaque
 stringData:
-  mysql-root-password: Roboshop@1
+  MYSQL_ROOT_PASSWORD: Roboshop@1
