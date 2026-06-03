@@ -31,7 +31,7 @@ metadata:
   name: mysql
 spec:
   serviceName: mysql-headless
-  replicas: 3
+  replicas: 1
 
   selector:
     matchLabels:
@@ -50,6 +50,11 @@ spec:
           ports:
             - containerPort: 3306
               name: mysql
+          envFrom:
+            - configMapRef:
+                name: mysql
+            - secretRef:
+                name: mysql-secret
           volumeMounts:
             - name: mysql-ebs-dynamic
               mountPath: /var/lib/mysql
@@ -64,3 +69,27 @@ spec:
         resources:
           requests:
             storage: 2Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+  namespace: roboshop
+  labels:
+    name: mysql
+    project: roboshop
+    environment: dev
+    tier: db
+data:
+  my.cnf: |
+    [mysqld]
+    innodb_redo_log_capacity = 2G
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: roboshop
+data:
+  mysql-root-password: Roboshop@1
+  
