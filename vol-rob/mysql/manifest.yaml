@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: 854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/mysql:1.0.0
+          image: mysql:8.0
 
           ports:
             - containerPort: 3306
