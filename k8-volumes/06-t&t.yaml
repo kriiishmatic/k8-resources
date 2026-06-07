@@ -1,0 +1,26 @@
+apiVersion : v1
+kind: Pod
+metadata:
+  name : nginx-tt
+  namespace: roboshop
+  labels:
+    name: nginx
+    project: roboshop
+    environment: dev
+    tier: db
+spec:
+  containers:
+    - name: nginx-test-1
+      image: nginx:latest
+      ports:
+        - containerPort: 8080
+  tolerations:
+    - key: "tier"
+      operator: "Equal"
+      value: "db"
+      effect: "NoSchedule"
+  nodeSelector:
+    component: database
+    
+
+  
