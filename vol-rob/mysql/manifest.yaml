@@ -1,3 +1,116 @@
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: ebs-dynamic-mysql-sc
+# provisioner: ebs.csi.aws.com
+# parameters:
+#   type: gp3
+#   fsType: ext4
+# reclaimPolicy: Delete
+# volumeBindingMode: Immediate
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mysql-headless
+#   namespace: roboshop
+# spec:
+#   clusterIP: None
+#   selector:
+#     app: mysql
+#     project: roboshop
+#   ports:
+#     - name: mysql
+#       port: 3306
+#       targetPort: 3306
+
+# ---
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: mysql
+#   namespace: roboshop
+# spec:
+#   serviceName: mysql-headless
+#   replicas: 2
+
+#   selector:
+#     matchLabels:
+#       app: mysql
+#       project: roboshop
+
+#   template:
+#     metadata:
+#       labels:
+#         app: mysql
+#         project: roboshop
+#     spec:
+#       containers:
+#         - name: mysql
+#           image: 854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/mysql:1.0.0
+
+#           ports:
+#             - containerPort: 3306
+#               name: mysql
+
+#           envFrom:
+#             - configMapRef:
+#                 name: mysql
+#             - secretRef:
+#                 name: mysql-secret
+
+#           volumeMounts:
+#             - name: mysql-ebs-dynamic
+#               mountPath: /var/lib/mysql
+
+#             - name: mysql-config
+#               mountPath: /etc/mysql/conf.d/my.cnf
+#               subPath: my.cnf
+
+#       volumes:
+#         - name: mysql-config
+#           configMap:
+#             name: mysql
+
+#   volumeClaimTemplates:
+#     - metadata:
+#         name: mysql-ebs-dynamic
+#       spec:
+#         storageClassName: ebs-dynamic-mysql-sc
+#         accessModes:
+#           - ReadWriteOnce
+#         resources:
+#           requests:
+#             storage: 2Gi
+
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: mysql
+#   namespace: roboshop
+#   labels:
+#     project: roboshop
+#     environment: dev
+#     tier: db
+# data:
+#   my.cnf: |
+#     [mysqld]
+#     innodb_redo_log_capacity=2G
+
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: mysql-secret
+#   namespace: roboshop
+# type: Opaque
+# data:
+#   MYSQL_ROOT_PASSWORD: Um9ib1Nob3BAMQ==
+
+
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -21,9 +134,18 @@ spec:
     app: mysql
     project: roboshop
   ports:
-    - name: mysql
-      port: 3306
+    - port: 3306
       targetPort: 3306
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: roboshop
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: RoboShop@1
 
 ---
 apiVersion: apps/v1
@@ -33,7 +155,7 @@ metadata:
   namespace: roboshop
 spec:
   serviceName: mysql-headless
-  replicas: 2
+  replicas: 1
 
   selector:
     matchLabels:
@@ -45,66 +167,30 @@ spec:
       labels:
         app: mysql
         project: roboshop
+
     spec:
       containers:
-        - name: mysql
-          image: 854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/mysql:1.0.0
+      - name: mysql
+        image: 854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/mysql:1.0.0
 
-          ports:
-            - containerPort: 3306
-              name: mysql
+        ports:
+        - containerPort: 3306
 
-          envFrom:
-            - configMapRef:
-                name: mysql
-            - secretRef:
-                name: mysql-secret
+        envFrom:
+        - secretRef:
+            name: mysql-secret
 
-          volumeMounts:
-            - name: mysql-ebs-dynamic
-              mountPath: /var/lib/mysql
-
-            - name: mysql-config
-              mountPath: /etc/mysql/conf.d/my.cnf
-              subPath: my.cnf
-
-      volumes:
-        - name: mysql-config
-          configMap:
-            name: mysql
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
 
   volumeClaimTemplates:
-    - metadata:
-        name: mysql-ebs-dynamic
-      spec:
-        storageClassName: ebs-dynamic-mysql-sc
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 2Gi
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql
-  namespace: roboshop
-  labels:
-    project: roboshop
-    environment: dev
-    tier: db
-data:
-  my.cnf: |
-    [mysqld]
-    innodb_redo_log_capacity=2G
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-  namespace: roboshop
-type: Opaque
-data:
-  MYSQL_ROOT_PASSWORD: Um9ib1Nob3BAMQ==
+  - metadata:
+      name: mysql-data
+    spec:
+      storageClassName: ebs-dynamic-mysql-sc
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
