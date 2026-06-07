@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:8.0
+          image: 854481201869.dkr.ecr.us-east-1.amazonaws.com/stackly/mysql:1.0.0
 
           ports:
             - containerPort: 3306
@@ -107,4 +107,4 @@ metadata:
   namespace: roboshop
 type: Opaque
 data:
-  MYSQL_ROOT_PASSWORD: Um9ib3Nob3BAMQ==
+  MYSQL_ROOT_PASSWORD: Um9ib1Nob3BAMQ==
