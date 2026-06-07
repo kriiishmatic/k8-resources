@@ -20,7 +20,7 @@ spec:
       value: "db"
       effect: "NoSchedule"
   nodeSelector:
-    component: database
+    component: db
     
 
   
