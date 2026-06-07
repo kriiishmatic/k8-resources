@@ -1,0 +1,53 @@
+apiVersion : apps/v1
+kind : Deployment
+metadata:
+  name : pod-affinity
+  namespace: roboshop
+  labels:
+    purpose: affinity
+    project: roboshop
+    environment: dev
+    tier: frontend
+    resource: deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      purpose: affinity
+      project: roboshop
+      environment: dev
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        purpose: affinity
+        project: roboshop
+        environment: dev
+        tier: frontend
+        resource: frontend-pod
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+                - matchExpressions:
+                  - key: tier
+                    operator: In
+                    values:
+                      - frontend
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: resource
+                    operator: In
+                    values:
+                      - frontend-pod
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 8080
+      
+    
