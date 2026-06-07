@@ -1,15 +1,15 @@
-data "aws_ami" "eks_workstation" {
-  most_recent = true
+# data "aws_ami" "eks_workstation" {
+#   most_recent = true
 
-  owners = ["854481201869"]
+#   owners = ["854481201869"]
 
-  filter {
-    name   = "name"
-    values = ["eks-*"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["eks-*"]
+#   }
 
-  filter {
-    name   = "state"
-    values = ["available"]
-  }
-}
+#   filter {
+#     name   = "state"
+#     values = ["available"]
+#   }
+# }

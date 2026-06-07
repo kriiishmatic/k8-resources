@@ -6,7 +6,7 @@ provisioner: ebs.csi.aws.com
 parameters:
   type: gp3
   fsType: ext4
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
 
 ---
@@ -33,7 +33,7 @@ metadata:
   namespace: roboshop
 spec:
   serviceName: mysql-headless
-  replicas: 1
+  replicas: 2
 
   selector:
     matchLabels:
@@ -106,5 +106,5 @@ metadata:
   name: mysql-secret
   namespace: roboshop
 type: Opaque
-stringData:
-  MYSQL_ROOT_PASSWORD: Roboshop@1
+data:
+  MYSQL_ROOT_PASSWORD: Um9ib3Nob3BAMQ==
