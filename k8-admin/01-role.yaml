@@ -19,6 +19,6 @@ roleRef :
   kind : Role
   name : trainee
 subjects :
-- kind: User
-  name: jane 
+- kind: Group
+  name: trainees
   apiGroup: rbac.authorization.k8s.io
