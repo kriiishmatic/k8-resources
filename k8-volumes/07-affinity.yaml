@@ -28,22 +28,7 @@ spec:
     spec:
       affinity:
         nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-                - matchExpressions:
-                  - key: tier
-                    operator: In
-                    values:
-                      - frontend
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: resource
-                    operator: In
-                    values:
-                      - frontend-pod
-              topologyKey: "kubernetes.io/hostname"
+          
       containers:
         - name: nginx
           image: nginx:latest

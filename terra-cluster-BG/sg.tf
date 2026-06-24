@@ -61,3 +61,13 @@ resource "aws_security_group_rule" "node_egress" {
 
   cidr_blocks = ["0.0.0.0/0"]
 }
+
+resource "aws_security_group_rule" "node_to_node" {
+  type                     = "ingress"
+  security_group_id        = aws_security_group.eks_node_sg.id
+  source_security_group_id = aws_security_group.eks_node_sg.id
+
+  protocol  = "-1"
+  from_port = 0
+  to_port   = 0
+}
